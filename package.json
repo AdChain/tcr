@@ -5,6 +5,7 @@
   "scripts": {
     "compile": "truffle install && truffle compile",
     "deploy-rinkeby": "truffle migrate --network rinkeby",
+    "deploy-ganache": "truffle migrate --network ganache",
     "test": "truffle test",
     "fix": "eslint --fix",
     "lint": "eslint"
