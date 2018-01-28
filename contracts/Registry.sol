@@ -10,16 +10,16 @@ contract Registry {
     // EVENTS
     // ------
 
-    event _Application(bytes32 listingHash, uint deposit, string data);
-    event _Challenge(bytes32 listingHash, uint deposit, uint pollID, string data);
-    event _Deposit(bytes32 listingHash, uint added, uint newTotal);
-    event _Withdrawal(bytes32 listingHash, uint withdrew, uint newTotal);
-    event _NewListingWhitelisted(bytes32 listingHash);
-    event _ApplicationRemoved(bytes32 listingHash);
-    event _ListingRemoved(bytes32 listingHash);
-    event _ChallengeFailed(uint challengeID);
-    event _ChallengeSucceeded(uint challengeID);
-    event _RewardClaimed(address voter, uint challengeID, uint reward);
+    event _Application(bytes32 indexed listingHash, uint indexed deposit, string data);
+    event _Challenge(bytes32 indexed listingHash, uint indexed deposit, uint indexed pollID, string data);
+    event _Deposit(bytes32 indexed listingHash, uint indexed added, uint indexed newTotal);
+    event _Withdrawal(bytes32 indexed listingHash, uint indexed withdrew, uint indexed newTotal);
+    event _NewListingWhitelisted(bytes32 indexed listingHash);
+    event _ApplicationRemoved(bytes32 indexed listingHash);
+    event _ListingRemoved(bytes32 indexed listingHash);
+    event _ChallengeFailed(uint indexed challengeID);
+    event _ChallengeSucceeded(uint indexed challengeID);
+    event _RewardClaimed(address indexed voter, uint indexed challengeID, uint indexed reward);
 
     struct Listing {
         uint applicationExpiry; // Expiration date of apply stage

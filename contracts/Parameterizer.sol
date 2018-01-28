@@ -9,8 +9,8 @@ contract Parameterizer {
   // EVENTS
   // ------
 
-  event _ReparameterizationProposal(address proposer, string name, uint value, bytes32 propID);
-  event _NewChallenge(address challenger, bytes32 propID, uint pollID);
+  event _ReparameterizationProposal(address indexed proposer, string name, uint indexed value, bytes32 indexed propID);
+  event _NewChallenge(address indexed challenger, bytes32 indexed propID, uint indexed pollID);
 
 
   // ------
