@@ -6,11 +6,19 @@ let mnemonic = '';
 
 if (fs.existsSync('secrets.json')) {
   secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
-  ({ mnemonic } = secrets);
+  mnemonic = secrets.rinkeby;
+} else {
+  mnemonic = 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat';
 }
 
 module.exports = {
   networks: {
+    test: {
+      provider: new HDWalletProvider(mnemonic, 'http://127.0.0.1:8545'),
+      network_id: '*',
+      gas: 4500000,
+      gasPrice: 20000000000,
+    },
     mainnet: {
       provider: new HDWalletProvider(mnemonic, 'https://mainnet.infura.io'),
       network_id: '1',
@@ -21,7 +29,7 @@ module.exports = {
       provider: new HDWalletProvider(mnemonic, 'https://rinkeby.infura.io'),
       network_id: '*',
       gas: 4500000,
-      gasPrice: 25000000000,
+      gasPrice: 20000000000,
     },
   },
 };
