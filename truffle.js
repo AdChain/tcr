@@ -6,7 +6,7 @@ let mnemonic = '';
 
 if (fs.existsSync('secrets.json')) {
   secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
-  mnemonic = secrets.rinkeby;
+  mnemonic = secrets.test;
 } else {
   mnemonic = 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat';
 }
