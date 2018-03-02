@@ -21,6 +21,10 @@ contract Registry {
     event _ChallengeSucceeded(uint indexed challengeID);
     event _RewardClaimed(address indexed voter, uint indexed challengeID, uint indexed reward);
 
+    // ------
+    // DATA STRUCTURES
+    // ------
+
     struct Listing {
         uint applicationExpiry; // Expiration date of apply stage
         bool whitelisted;       // Indicates registry status
@@ -35,8 +39,14 @@ contract Registry {
         bool resolved;          // Indication of if challenge is resolved
         uint stake;             // Number of tokens at stake for either party during challenge
         uint totalTokens;       // (remaining) Number of tokens used in voting by the winning side
-        mapping(address => bool) tokenClaims; // Indicates whether a voter has claimed a reward yet
+        mapping(address => bool) voterCanClaimReward; // Indicates whether a voter has claimed a reward yet
     }
+
+    // ------
+    // STATE
+    // ------
+
+    Registry masterCopy; // THIS MUST ALWAYS BE THE FIRST STATE VARIABLE DECLARED!!!!!!
 
     // Maps challengeIDs to associated challenge data
     mapping(uint => Challenge) public challenges;
@@ -48,7 +58,9 @@ contract Registry {
     EIP20 public token;
     PLCRVoting public voting;
     Parameterizer public parameterizer;
+
     string public version = '1';
+    string public name;
 
     // ------------
     // CONSTRUCTOR:
@@ -63,13 +75,26 @@ contract Registry {
     function Registry(
         address _tokenAddr,
         address _plcrAddr,
-        address _paramsAddr
+        address _paramsAddr,
+        string _name
     ) public {
+      setup(_tokenAddr, _plcrAddr, _paramsAddr, _name);
+    }
+
+    function setup(
+        address _tokenAddr,
+        address _plcrAddr,
+        address _paramsAddr,
+        string _name
+    ) public {
+        require(address(token) == 0);
+
         token = EIP20(_tokenAddr);
         voting = PLCRVoting(_plcrAddr);
         parameterizer = Parameterizer(_paramsAddr);
+        name = _name;
     }
-
+    
     // --------------------
     // PUBLISHER INTERFACE:
     // --------------------
@@ -151,6 +176,8 @@ contract Registry {
 
         // Remove listingHash & return tokens
         resetListing(_listingHash);
+
+        _ListingRemoved(_listingHash);
     }
 
     // -----------------------
@@ -233,9 +260,9 @@ contract Registry {
     @param _challengeID The PLCR pollID of the challenge a reward is being claimed for
     @param _salt        The salt of a voter's commit hash in the given poll
     */
-    function claimReward(uint _challengeID, uint _salt) public {
+    function claimVoterReward(uint _challengeID, uint _salt) public {
         // Ensures the voter has not already claimed tokens and challenge results have been processed
-        require(challenges[_challengeID].tokenClaims[msg.sender] == false);
+        require(challenges[_challengeID].voterCanClaimReward[msg.sender] == false);
         require(challenges[_challengeID].resolved == true);
 
         uint voterTokens = voting.getNumPassingTokens(msg.sender, _challengeID, _salt);
@@ -249,7 +276,7 @@ contract Registry {
         require(token.transfer(msg.sender, reward));
 
         // Ensures a voter cannot claim tokens again
-        challenges[_challengeID].tokenClaims[msg.sender] = true;
+        challenges[_challengeID].voterCanClaimReward[msg.sender] = true;
 
         _RewardClaimed(msg.sender, _challengeID, reward);
     }
@@ -337,7 +364,7 @@ contract Registry {
     @dev                Determines the number of tokens awarded to the winning party in a challenge.
     @param _challengeID The challengeID to determine a reward for
     */
-    function determineReward(uint _challengeID) public view returns (uint) {
+    function challengeWinnerReward(uint _challengeID) public view returns (uint) {
         require(!challenges[_challengeID].resolved && voting.pollEnded(_challengeID));
 
         // Edge case, nobody voted, give all tokens to the challenger.
@@ -349,12 +376,12 @@ contract Registry {
     }
 
     /**
-    @dev                Getter for Challenge tokenClaims mappings
+    @dev                Getter for Challenge voterCanClaimReward mappings
     @param _challengeID The challengeID to query
     @param _voter       The voter whose claim status to query for the provided challengeID
     */
-    function tokenClaims(uint _challengeID, address _voter) public view returns (bool) {
-      return challenges[_challengeID].tokenClaims[_voter];
+    function voterCanClaimReward(uint _challengeID, address _voter) public view returns (bool) {
+      return challenges[_challengeID].voterCanClaimReward[_voter];
     }
 
     // ----------------
@@ -371,7 +398,7 @@ contract Registry {
 
         // Calculates the winner's reward,
         // which is: (winner's full stake) + (dispensationPct * loser's stake)
-        uint reward = determineReward(challengeID);
+        uint reward = challengeWinnerReward(challengeID);
 
         // Records whether the listingHash is a listingHash or an application
         bool wasWhitelisted = isWhitelisted(_listingHash);
