@@ -1,0 +1,45 @@
+{
+  "paramDefaults": {
+    "minDeposit": 10000000000000000000,
+    "pMinDeposit": 100000000000000000000,
+    "applyStageLength": 120,
+    "pApplyStageLength": 1200,
+    "commitStageLength": 240,
+    "pCommitStageLength": 1200,
+    "revealStageLength": 240,
+    "pRevealStageLength": 1200,
+    "dispensationPct": 50,
+    "pDispensationPct": 50,
+    "voteQuorum": 50,
+    "pVoteQuorum": 50
+	},
+  "token": {
+    "address": "0x337cDDa6D41A327c5ad456166CCB781a9722AFf9",
+    "deployToken": true,
+    "decimals": "18",
+    "name": "CAT Token",
+    "symbol": "CATT",
+    "supply": "1000000000000000000000000000",
+    "tokenHolders": [
+      { "address": "0xD09cc3Bc67E4294c4A446d8e4a2934a921410eD7",
+        "amount": "200000000000000000000000000" },
+      { "address": "0x1a5cdcFBA600e0c669795e0B65c344D5A37a4d5A",
+        "amount": "100000000000000000000000000" },
+      { "address": "0xEDa75F826F12DFb245144769d97BF6D47aBD2473",
+        "amount": "100000000000000000000000000" },
+      { "address": "0x61534E849698d4c61498788e5FE2E9C4b30AF4b1",
+        "amount": "100000000000000000000000000" },
+      { "address": "0xf0ab4413a055125f21332af5a8ca523e51ecdd59",
+        "amount": "100000000000000000000000000" },
+      { "address": "0xb7918262DCf6Af36FbA41f2813ba4c86762cd811",
+        "amount": "100000000000000000000000000" },
+      { "address": "0xCe31AB2C2988aB2e13594cb79aF46056ff54f97E",
+        "amount": "100000000000000000000000000" },
+      { "address": "0xE4660fdAb2D6Bd8b50C029ec79E244d132c3bc2B",
+        "amount": "100000000000000000000000000" },
+      { "address": "0x0efa23284f795590640cfd9ce326f20c1a3951e5",
+        "amount": "100000000000000000000000000" }
+    ]
+  }
+}
+
