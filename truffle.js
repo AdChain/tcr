@@ -6,11 +6,7 @@ let mnemonic = '';
 
 if (fs.existsSync('secrets.json')) {
   secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
-  mnemonic = secrets.ganache;
-} else {
-  console.log('WARNING!!! DO NOT USE THIS MNEMONIC ON MAINNET ETHEREUM. YOU WILL LOSE YOUR ETHER.');
-  // DO NOT USE THIS ON MAINNET
-  mnemonic = 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat';
+  ({ mnemonic } = secrets);
 }
 
 module.exports = {
