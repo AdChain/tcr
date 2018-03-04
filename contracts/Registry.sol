@@ -17,8 +17,6 @@ contract Registry {
     event _NewListingWhitelisted(bytes32 indexed listingHash);
     event _ApplicationRemoved(bytes32 indexed listingHash);
     event _ListingRemoved(bytes32 indexed listingHash);
-    event _ChallengeFailed(uint indexed challengeID);
-    event _ChallengeSucceeded(uint indexed challengeID);
     event _RewardClaimed(address indexed voter, uint indexed challengeID, uint indexed reward);
 
     // ------
@@ -169,15 +167,13 @@ contract Registry {
         Listing storage listing = listings[_listingHash];
 
         require(msg.sender == listing.owner);
-        require(isWhitelisted(_listingHash));
+        require(listing.whitelisted);
 
         // Cannot exit during ongoing challenge
         require(listing.challengeID == 0 || challenges[listing.challengeID].resolved);
 
         // Remove listingHash & return tokens
         resetListing(_listingHash);
-
-        _ListingRemoved(_listingHash);
     }
 
     // -----------------------
@@ -242,7 +238,6 @@ contract Registry {
     function updateStatus(bytes32 _listingHash) public {
         if (canBeWhitelisted(_listingHash)) {
           whitelistApplication(_listingHash);
-          _NewListingWhitelisted(_listingHash);
         } else if (challengeCanBeResolved(_listingHash)) {
           resolveChallenge(_listingHash);
         } else {
@@ -400,27 +395,17 @@ contract Registry {
         // which is: (winner's full stake) + (dispensationPct * loser's stake)
         uint reward = challengeWinnerReward(challengeID);
 
-        // Records whether the listingHash is a listingHash or an application
-        bool wasWhitelisted = isWhitelisted(_listingHash);
-
         // Case: challenge failed
         if (voting.isPassed(challengeID)) {
             whitelistApplication(_listingHash);
             // Unlock stake so that it can be retrieved by the applicant
             listings[_listingHash].unstakedDeposit += reward;
-
-            _ChallengeFailed(challengeID);
-            if (!wasWhitelisted) { _NewListingWhitelisted(_listingHash); }
         }
         // Case: challenge succeeded
         else {
             resetListing(_listingHash);
             // Transfer the reward to the challenger
             require(token.transfer(challenges[challengeID].challenger, reward));
-
-            _ChallengeSucceeded(challengeID);
-            if (wasWhitelisted) { _ListingRemoved(_listingHash); }
-            else { _ApplicationRemoved(_listingHash); }
         }
 
         // Sets flag on challenge being processed
@@ -439,6 +424,7 @@ contract Registry {
     */
     function whitelistApplication(bytes32 _listingHash) private {
         listings[_listingHash].whitelisted = true;
+        if (!listings[_listingHash].whitelisted) { _NewListingWhitelisted(_listingHash); }
     }
 
     /**
@@ -452,6 +438,11 @@ contract Registry {
         if (listing.unstakedDeposit > 0)
             require(token.transfer(listing.owner, listing.unstakedDeposit));
 
+        if (listing.whitelisted) {
+            _ListingRemoved(_listingHash);
+        } else {
+            _ApplicationRemoved(_listingHash);
+        }
         delete listings[_listingHash];
     }
 }
