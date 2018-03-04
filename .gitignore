@@ -4,4 +4,6 @@ truffle.js
 secrets.json
 *.swp
 installed_contracts/
-zzz/
+conf/extra.json
+conf/blop.json
+conf/gol.json
