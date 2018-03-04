@@ -11,7 +11,7 @@ if (fs.existsSync('secrets.json')) {
 
 module.exports = {
   networks: {
-    local: {
+    ganache: {
       provider: new HDWalletProvider(mnemonic, 'http://127.0.0.1:8545'),
       network_id: '*',
       gas: 4500000,

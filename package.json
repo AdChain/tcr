@@ -4,7 +4,7 @@
   "description": "A generic, string-keyed TCR in Solidity",
   "scripts": {
     "compile": "truffle compile",
-    "deploy-local": "truffle migrate --network local",
+    "deploy-ganache": "truffle migrate --network ganache",
     "deploy-rinkeby": "truffle migrate --network rinkeby",
     "deploy-mainnet": "truffle migrate --network mainnet",
     "test": "npm run lint ./ && truffle test",
