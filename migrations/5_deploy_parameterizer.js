@@ -49,7 +49,7 @@ module.exports = (deployer, network, accounts) => {
     );
   })
     .then(async () => {
-      if (network === 'test') {
+      if (network === 'test' || network === 'local') {
         await approveParameterizerFor(accounts);
       }
     }).catch((err) => { throw err; });

@@ -6,16 +6,16 @@ let mnemonic = '';
 
 if (fs.existsSync('secrets.json')) {
   secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
-  mnemonic = secrets.test;
+  mnemonic = secrets.ganache;
 } else {
-  console.log('WARNING!!! DO NOT USE THIS MNEMONIC ON MAINNET ETHEREUM. YOU WILL LOSE YOUR ETHER.')
+  console.log('WARNING!!! DO NOT USE THIS MNEMONIC ON MAINNET ETHEREUM. YOU WILL LOSE YOUR ETHER.');
   // DO NOT USE THIS ON MAINNET
   mnemonic = 'candy maple cake sugar pudding cream honey rich smooth crumble sweet treat';
 }
 
 module.exports = {
   networks: {
-    test: {
+    local: {
       provider: new HDWalletProvider(mnemonic, 'http://127.0.0.1:8545'),
       network_id: '*',
       gas: 4500000,
