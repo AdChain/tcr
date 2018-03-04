@@ -12,26 +12,24 @@
     "pDispensationPct": 50,
     "voteQuorum": 50,
     "pVoteQuorum": 50
-	},
-  "name": "Token Curated Registry",
+  },
+  "name": "Team Goldin's Golden Guidelines",
   "token": {
     "address": "0x337cDDa6D41A327c5ad456166CCB781a9722AFf9",
     "deployToken": true,
     "decimals": "18",
-    "name": "Super Token",
-    "symbol": "SUPE",
+    "name": "Goldin Token",
+    "symbol": "GOLDIN",
     "supply": "1000000000000000000000000000",
     "tokenHolders": [
-      {"address": "0xb2969D3429e99E4846E5bE4Df47d74bA87069E0D",
-        "amount": "10000000000000000000000"},
-      {"address": "0x647971f1657403A970906ff2156820f97f15a149",
-        "amount": "10000000000000000000000"},
-      {"address": "0x238e4eB1CdE46B02DD188C9750362C40dBe76988",
-        "amount": "10000000000000000000000"},
-      {"address": "0x1a5cdcFBA600e0c669795e0B65c344D5A37a4d5A",
-        "amount": "10000000000000000000000"},
-      {"address": "0xD09cc3Bc67E4294c4A446d8e4a2934a921410eD7",
-        "amount": "10000000000000000000000"}
+      { "address": "0x1a5cdcFBA600e0c669795e0B65c344D5A37a4d5A",
+        "amount": "400000000000000000000000000" },
+      { "address": "0xD09cc3Bc67E4294c4A446d8e4a2934a921410eD7",
+        "amount": "200000000000000000000000000" },
+      { "address": "0x61534E849698d4c61498788e5FE2E9C4b30AF4b1",
+        "amount": "200000000000000000000000000" },
+      { "address": "0xf0ab4413a055125f21332af5a8ca523e51ecdd59",
+        "amount": "200000000000000000000000000" }
     ]
   }
 }
