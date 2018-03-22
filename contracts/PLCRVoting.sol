@@ -15,7 +15,7 @@ contract PLCRVoting {
 
     event VoteCommitted(address indexed voter, uint indexed pollID, uint indexed numTokens);
     event VoteRevealed(address indexed voter, uint indexed pollID, uint indexed numTokens, uint choice);
-    event PollCreated(uint indexed voteQuorum, uint indexed commitDuration, uint revealDuration, uint indexed pollID);
+    event PollCreated(uint voteQuorum, uint commitDuration, uint revealDuration, uint indexed pollID);
     event VotingRightsGranted(address indexed voter, uint indexed numTokens);
     event VotingRightsWithdrawn(address indexed voter, uint indexed numTokens);
 
