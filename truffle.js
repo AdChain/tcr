@@ -1,12 +1,14 @@
 const HDWalletProvider = require('truffle-hdwallet-provider');
 const fs = require('fs');
 
-let secrets;
-let mnemonic = '';
+let mnemonic;
 
 if (fs.existsSync('secrets.json')) {
-  secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
+  const secrets = JSON.parse(fs.readFileSync('secrets.json', 'utf8'));
   ({ mnemonic } = secrets);
+} else {
+  console.log('no secrets.json found. You can only deploy to ganache.');
+  mnemonic = '';
 }
 
 module.exports = {
