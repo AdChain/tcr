@@ -4,14 +4,26 @@
   "description": "A generic, string-keyed TCR in Solidity",
   "scripts": {
     "compile": "truffle compile",
-    "deploy-ganache": "truffle migrate --network ganache",
+    "install": "truffle install",
     "deploy-rinkeby": "truffle migrate --network rinkeby",
     "deploy-mainnet": "truffle migrate --network mainnet",
+    "deploy-ganache": "truffle migrate --network ganache",
     "test": "npm run lint ./ && truffle test",
     "fix": "eslint --fix",
     "lint": "eslint"
   },
-  "author": "Irene Lin <irene.lin@consensys.net>, Mira Zeitlin <miranda.zeitlin@consensys.net>, Yorke Rhodes <yorke.rhodesiv@consensys.net>",
+  "authors": [
+    "Mike Goldin",
+    "Isaac Kang",
+    "Terry Li",
+    "Irene Lin",
+    "Akua Nti",
+    "Kenan O'Neal",
+    "Cem Ozer",
+    "Aspyn Palatnick",
+    "Yorke Rhodes",
+    "Mira Zeitlin"
+  ],
   "license": "ISC",
   "dependencies": {
     "bignumber.js": "5.0.0",
