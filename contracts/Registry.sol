@@ -20,7 +20,8 @@ contract Registry {
     event _ChallengeFailed(uint indexed challengeID);
     event _ChallengeSucceeded(uint indexed challengeID);
     event _RewardClaimed(address indexed voter, uint indexed challengeID, uint indexed reward);
-
+    event _ListingExit(bytes32 indexed listingHash);
+    
     // ------
     // DATA STRUCTURES
     // ------
@@ -176,6 +177,8 @@ contract Registry {
 
         // Remove listingHash & return tokens
         resetListing(_listingHash);
+        
+        _ListingExit(_listingHash);
     }
 
     // -----------------------
